@@ -1,0 +1,34 @@
+
+gcp_credentials: ENCRYPTED[c0add011591ac0ceee3c682de56dd24aaa48a8181b7a10011e6a0789569adaf602e9394b722d2b078bf00eae81f32699]
+
+task:
+  name: OpenBSD - GCE
+
+  gce_instance:
+    image_project: pg-ci-images-dev
+    image_family: pg-ci-openbsd-7-1-postgres
+    platform: openbsd
+    cpu: $CPUS
+    memory: 4G
+    disk: 25
+
+  script:
+    - echo "Hello!"
+    - sleep 4
+    - echo "Bye!"
+
+task:
+  name: OpenBSD - Compute Engine
+
+  compute_engine_instance:
+    image_project: pg-ci-images-dev
+    image: family/pg-ci-openbsd-7-1-postgres
+    platform: openbsd
+    cpu: $CPUS
+    memory: 4G
+    disk: 25
+
+  script:
+    - echo "Hello!"
+    - sleep 4
+    - echo "Bye!"
