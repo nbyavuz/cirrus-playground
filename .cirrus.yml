@@ -1,5 +1,5 @@
 
-gcp_credentials: ENCRYPTED[c0add011591ac0ceee3c682de56dd24aaa48a8181b7a10011e6a0789569adaf602e9394b722d2b078bf00eae81f32699]
+gcp_credentials: ENCRYPTED[2486fef2ef696ae07b1ff3a5a9c19fc3c4f3b4b9473d1186a568ef31e9209503a816ec87fe37ca1e2c9990e50b279a75]
 
 task:
   name: OpenBSD - GCE
@@ -8,7 +8,7 @@ task:
     image_project: pg-ci-images-dev
     image_family: pg-ci-openbsd-7-1-postgres
     platform: openbsd
-    cpu: $CPUS
+    cpu: 4
     memory: 4G
     disk: 25
 
@@ -24,7 +24,7 @@ task:
     image_project: pg-ci-images-dev
     image: family/pg-ci-openbsd-7-1-postgres
     platform: openbsd
-    cpu: $CPUS
+    cpu: 4
     memory: 4G
     disk: 25
 
