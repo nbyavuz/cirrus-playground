@@ -2,7 +2,7 @@
 gcp_credentials: ENCRYPTED[2486fef2ef696ae07b1ff3a5a9c19fc3c4f3b4b9473d1186a568ef31e9209503a816ec87fe37ca1e2c9990e50b279a75]
 
 task:
-  name: OpenBSD - GCE
+  name: OpenBSD - GCE - Intel
 
   gce_instance:
     image_project: pg-ci-images-dev
@@ -10,6 +10,22 @@ task:
     platform: openbsd
     cpu: 4
     memory: 4G
+    disk: 25
+    nested_virtualization: true
+
+  script:
+    - echo "Hello!"
+    - sleep 4
+    - echo "Bye!"
+
+task:
+  name: OpenBSD - GCE - TAU
+
+  gce_instance:
+    image_project: pg-ci-images-dev
+    image_family: pg-ci-openbsd-7-1-postgres
+    platform: openbsd
+    type: t2d-standard-4
     disk: 25
 
   script:
