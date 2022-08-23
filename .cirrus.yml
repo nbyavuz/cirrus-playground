@@ -1,34 +1,25 @@
-
-gcp_credentials: ENCRYPTED[2486fef2ef696ae07b1ff3a5a9c19fc3c4f3b4b9473d1186a568ef31e9209503a816ec87fe37ca1e2c9990e50b279a75]
-
 task:
-  name: OpenBSD - GCE
+  name: Hello-World
 
-  gce_instance:
-    image_project: pg-ci-images-dev
-    image_family: pg-ci-openbsd-7-1-postgres
-    platform: openbsd
-    cpu: 4
-    memory: 4G
-    disk: 25
+  env:
+    hello_world_env_var: Hello-World
+    two_hello: Hello_World${hello_world_env_var}
+    hello_world_from_task_name: Hello-${CIRRUS_TASK_NAME#*-}
+    hello_world_from_env: Hello-${hello_world_env_var#*-}
 
-  script:
-    - echo "Hello!"
-    - sleep 4
-    - echo "Bye!"
+  container:
+    image: debian:bullseye
 
-task:
-  name: OpenBSD - Compute Engine
+  echo_two_hello_script: |
+    echo "${two_hello}"
 
-  compute_engine_instance:
-    image_project: pg-ci-images-dev
-    image: family/pg-ci-openbsd-7-1-postgres
-    platform: openbsd
-    cpu: 4
-    memory: 4G
-    disk: 25
+  echo_cirrus_task_name_script: |
+    echo "${hello_world_from_task_name}"
 
-  script:
-    - echo "Hello!"
-    - sleep 4
-    - echo "Bye!"
+  echo_env_script: |
+    echo "${hello_world_from_env}"
+
+  echo_default_script: |
+    temp_var=Hello-World
+    hello_world_from_task=Hello-${temp_var#*-}
+    echo "${hello_world_from_task}"
