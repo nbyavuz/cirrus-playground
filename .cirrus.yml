@@ -4,6 +4,13 @@ task:
   # Name of the CI task
   name: Postgres CI Blog Post
 
+  # Container where CI will run
+  container:
+    # Container configuration
+    image: debian:latest
+    cpu: 4
+    memory: 12G
+
   # Where environment variables are configured
   env:
     POST_TYPE: blog
