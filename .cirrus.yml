@@ -1,0 +1,24 @@
+# A sequence of instructions to execute and
+# an execution environment to execute these instructions in
+task:
+  # Name of the CI task
+  name: Postgres CI Blog Post
+
+  # Where environment variables are configured
+  env:
+    POST_TYPE: blog
+    FILE_NAME: blog.txt
+
+  # {script_name}_script: Instruction to execute commands
+  print_post_type_script:
+    # command to run at script instruction
+    - echo "Will print POST_TYPE to the file"
+    - echo "This post's type is ${POST_TYPE}" > ${FILE_NAME}
+
+  # {artifacts_name}_artifacts: Instruction to store files and expose them in the UI for downloading later
+  blog_artifacts:
+    # Path of files which should be relative to Cirrus CI’s working directory
+    paths:
+      - "${FILE_NAME}"
+    # Type of the files that will be stored
+    type: text/plain
