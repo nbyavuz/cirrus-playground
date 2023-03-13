@@ -1,34 +1,32 @@
-
-gcp_credentials: ENCRYPTED[c0add011591ac0ceee3c682de56dd24aaa48a8181b7a10011e6a0789569adaf602e9394b722d2b078bf00eae81f32699]
-
+# A sequence of instructions to execute and
+# an execution environment to execute these instructions in
 task:
-  name: OpenBSD - GCE
+  # Name of the CI task
+  name: Postgres CI Citus Con Talk
 
-  gce_instance:
-    image_project: pg-ci-images-dev
-    image_family: pg-ci-openbsd-7-1-postgres
-    platform: openbsd
-    cpu: $CPUS
-    memory: 4G
-    disk: 25
+  # Container where CI will run
+  container:
+    # Container configuration
+    image: debian:latest
+    cpu: 4
+    memory: 12G
 
-  script:
-    - echo "Hello!"
-    - sleep 4
-    - echo "Bye!"
+  # Where environment variables are configured
+  env:
+    EVENT_NAME: "?"
+    FILE_NAME: talk.txt
 
-task:
-  name: OpenBSD - Compute Engine
+  # {script_name}_script: Instruction to execute commands
+  print_post_type_script:
+    # command to run at script instruction
+    - echo "Hi everyone!"
+    - echo "This talk is given at ${EVENT_NAME}!" > ${FILE_NAME}
 
-  compute_engine_instance:
-    image_project: pg-ci-images-dev
-    image: family/pg-ci-openbsd-7-1-postgres
-    platform: openbsd
-    cpu: $CPUS
-    memory: 4G
-    disk: 25
+  # {artifacts_name}_artifacts: Instruction to store files and expose them in the UI for downloading later
+  blog_artifacts:
+    # Path of files which should be relative to Cirrus CI’s working directory
+    paths:
+      - "${FILE_NAME}"
+    # Type of the files that will be stored
+    type: text/plain
 
-  script:
-    - echo "Hello!"
-    - sleep 4
-    - echo "Bye!"
