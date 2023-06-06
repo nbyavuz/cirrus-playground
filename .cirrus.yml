@@ -1,32 +1,11 @@
-# A sequence of instructions to execute and
-# an execution environment to execute these instructions in
 task:
-  # Name of the CI task
-  name: Postgres CI Citus Con Talk
+  name: try_date_starlark
 
-  # Container where CI will run
   container:
-    # Container configuration
     image: debian:latest
-    cpu: 4
-    memory: 12G
+    cpu: 0.5
+    memory: 256Mi
 
-  # Where environment variables are configured
-  env:
-    EVENT_NAME: "?"
-    FILE_NAME: talk.txt
-
-  # {script_name}_script: Instruction to execute commands
-  print_post_type_script:
-    # command to run at script instruction
-    - echo "Hi everyone!"
-    - echo "This talk is given at ${EVENT_NAME}!" > ${FILE_NAME}
-
-  # {artifacts_name}_artifacts: Instruction to store files and expose them in the UI for downloading later
-  blog_artifacts:
-    # Path of files which should be relative to Cirrus CI’s working directory
-    paths:
-      - "${FILE_NAME}"
-    # Type of the files that will be stored
-    type: text/plain
+  env_script: |
+    env
 
