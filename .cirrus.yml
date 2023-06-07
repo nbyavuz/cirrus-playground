@@ -1,32 +1,57 @@
-# A sequence of instructions to execute and
-# an execution environment to execute these instructions in
-task:
-  # Name of the CI task
-  name: Postgres CI Citus Con Talk
+get_date: &get_date
+  get_date_script: |
+    DATE=$(date -d @$(((${CIRRUS_CHANGE_TIMESTAMP} + 500) / 1000)) +'%Y-%m-%dt%H-%M-%S')
+    echo "DATE=${DATE}" | tee -a $CIRRUS_ENV
+  show_date_script: |
+    echo "Date = ${DATE}"
 
-  # Container where CI will run
-  container:
-    # Container configuration
-    image: debian:latest
-    cpu: 4
-    memory: 12G
 
-  # Where environment variables are configured
+get_date_windows: &get_date_windows
+  get_date_script:
+    - ps: |
+        echo ${Env:CIRRUS_CHANGE_TIMESTAMP}
+        $DATE=(([System.DateTimeOffset]::FromUnixTimeSeconds(([int64]${Env:CIRRUS_CHANGE_TIMESTAMP} + 500) / 1000)).DateTime).ToString("yyyy-MM-dd't'HH-mm-ss")
+        echo "DATE=${DATE}" | tee -a ${Env:CIRRUS_ENV}
+  show_date_script:
+    - ps: |
+        echo "Cat cirrus env start"
+        cat ${Env:CIRRUS_ENV}
+        echo "Cat cirrus env end"
+        echo "Path = ${Env:CIRRUS_ENV}"
+        echo "Date = ${Env:DATE}"
+        echo "Date = ${DATE}"
+        echo "Trial = ${Trial}"
+
+
+# task:
+#   # Name of the CI task
+#   name: Task 1
+
+#   # Container where CI will run
+#   container:
+#     # Container configuration
+#     image: debian:latest
+#     cpu: 1
+#     memory: 2G
+
+#   <<: *get_date
+
+#   # {script_name}_script: Instruction to execute commands
+#   print_script:
+#     # command to run at script instruction
+#     - echo "Date is ${DATE}"
+
+docker_builder:
+  name: Docker builder
+  platform: windows
+  os_version: 2019
+
   env:
-    EVENT_NAME: "?"
-    FILE_NAME: talk.txt
+    TRIAL: Timestamp Trial
 
-  # {script_name}_script: Instruction to execute commands
-  print_post_type_script:
-    # command to run at script instruction
-    - echo "Hi everyone!"
-    - echo "This talk is given at ${EVENT_NAME}!" > ${FILE_NAME}
+  add_global_script:
+    - ps: |
+        Add-Content -Path ${PROFILE} -Value '$PSDefaultParameterValues = @{"Out-File:Encoding" = "ASCII"}'
 
-  # {artifacts_name}_artifacts: Instruction to store files and expose them in the UI for downloading later
-  blog_artifacts:
-    # Path of files which should be relative to Cirrus CI’s working directory
-    paths:
-      - "${FILE_NAME}"
-    # Type of the files that will be stored
-    type: text/plain
+  <<: *get_date_windows
 
