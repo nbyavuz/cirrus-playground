@@ -1,0 +1,21 @@
+task:
+  name: Task 1
+
+  matrix:
+    - env:
+        VAR: VAR
+
+      matrix:
+        - env:
+            VAR_TEST: VAR1
+
+        - env:
+            VAR_TEST: VAR2
+
+  container:
+    image: debian:latest
+    cpu: 1
+    memory: 2G
+
+  print_script:
+    - echo "Var = ${VAR} and VAR_TEST = ${VAR_TEST}"
