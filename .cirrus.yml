@@ -1,0 +1,23 @@
+env:
+  PREFIX: pg-ci
+  GCP_PROJECT: pg-ci-images
+
+task:
+  name: 'Testing VM Image: ${PREFIX}-${IMAGE_NAME}'
+  matrix:
+    - env:
+        IMAGE_NAME: netbsd-postgres-9-3
+        PLATFORM: netbsd
+
+    - env:
+        IMAGE_NAME: openbsd-postgres-7-3
+        PLATFORM: openbsd
+
+  compute_engine_instance:
+    image_project: ${GCP_PROJECT}
+    image: family/${PREFIX}-${IMAGE_NAME}
+    platform: ${PLATFORM}
+
+  test_script:
+    - uname -a
+    - env
