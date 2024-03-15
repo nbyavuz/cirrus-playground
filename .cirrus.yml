@@ -1,0 +1,16 @@
+azure_credentials: ENCRYPTED[6b7eff0f62e8519b36ea25367930d09a98714c632e26f16b37c15e7914ebab816953bb964b458104b0884a10b9569df1]
+
+task:
+  # Name of the CI task
+  name: Run CI on Azure
+
+  azure_container_instance:
+    image: cirrusci/windowsservercore:2019
+    resource_group: CirrusCI
+    region: eastus
+    platform: windows
+    cpu: 4
+    memory: 12G
+
+  print_script:
+    - echo "Run CI on Azure"
